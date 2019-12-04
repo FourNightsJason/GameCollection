@@ -1,0 +1,96 @@
+.bigContainer{
+    width: 450px;
+    height: 500px;
+    /* background: tomato; */
+    position: relative;
+}
+.container{
+    width: 300px;/*15个*/
+    height: 500px;/*25个*/
+    /* overflow: hidden; */
+    /* background: red; */
+}
+.next{
+    width: 150px;
+    height: 40px;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    line-height: 40px;
+}
+.nextBlock{
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+    box-sizing: border-box;
+    position: absolute;
+    top: 40px;
+    right: 25px;
+}
+.block{
+    width:20px;
+    height: 20px;
+    float: left;
+    border: 1px solid black;
+    box-sizing: border-box;
+    position: relative;
+}
+.black{
+    background: black;
+}
+.rowBoom, .score{
+    width: 150px;
+    height: 40px;
+    text-align: center;
+    /* margin: 20px 0; */
+    position: absolute;
+    top: 160px;
+    right: 0;
+}
+.score{
+    top: 220px;
+}
+.start, .reStart{
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    position: absolute;
+    border: 1px solid black;
+    box-sizing: border-box;
+    border-radius: 10px;
+    bottom: 20px;
+    right: 25px;
+    cursor: pointer;
+}
+.start{
+    bottom: 80px;
+}
+.gameOver{
+	width: 300px;
+	height: 500px;
+	position: fixed;
+	color: red;
+	text-shadow: 2px 2px grey;
+	top: 0;
+	left: 0;
+	display: none;
+}
+.textTip{
+	width: 300px;
+	height: 100px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 100px;
+	font-size: 60px;
+	margin: 40px 0;
+}
+.boomTip, .scoreTip{
+	width: 300px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	font-size: 30px;
+	margin: 20px 0;
+}

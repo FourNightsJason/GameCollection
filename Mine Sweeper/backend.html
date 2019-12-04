@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <script type="text/javascript">
+        document.addEventListener('plusready', function () {
+            //console.log("所有plus api都应该在此事件发生后调用，否则会出现plus is undefined。"
+
+        });
+    </script>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        html,
+        body {
+            height: 100vh;
+            overflow: hidden;
+            /* background: black; */
+        }
+
+        #container {
+            width: 100vmin;
+            height: 100vmin;
+            background: gold;
+            margin: 0 auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -50vmin;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .block {
+            width: 10vmin;
+            height: 10vmin;
+            border: 1px solid black;
+            box-shadow: 3px 3px 3px gray;
+            box-sizing: border-box;
+            text-align: center;
+            line-height: 10vmin;
+            font-size: 10vmin;
+            cursor: default;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script></script>
+    <script>
+        var container = $('#container');
+        var column = 10;
+        var row = 10;
+        var mine = [];
+        mine.length = 10;
+        for (var i = 0; i < row; i++) {
+            for (var j = 0; j < column; j++) {
+                container.append('<div class="block"></div>');
+            }
+        }
+        for (var i = 0; i < mine.length; i++) {
+            mine[i] = (Math.floor(Math.random() * $('.block').length));
+            if (mine.indexOf(mine[i]) !== i) {
+                i--;
+            }
+        }
+        function showBomb() {
+            for (var i = 0; i < mine.length; i++) {
+                $('.block').eq(mine[i]).css('backgroundColor', 'black');
+            }
+        }
+
+        function isBomb(index) {
+            return mine.filter(element => index === element);
+        }
+        /*
+        -11	-10	-9
+        -1	0	1
+        9	10	11
+        */
+        var block = $('.block');
+        block.on('mousedown', function () {
+            window.oncontextmenu = function (e) {
+                e.preventDefault();
+            }
+            if ($(this).css('backgroundColor') !== 'rgb(245, 222, 179)') {
+                $(this).css('box-shadow', '-3px -3px 3px gray');
+            }
+        });
+        var otherLeft = 0;
+        block.on('mouseup', function () {
+            $(this).css('box-shadow', 'none');
+            var that = $(this);
+            var bombBeside = 0;
+            var testBomb = isBomb(that.index());
+            switch (event.which) {
+                case 1:
+                    if (testBomb.length) {
+                        showBomb();
+                        that.css('backgroundColor', 'red');
+                        setTimeout(function () {
+                            alert('你输了，点击“确定”重新开始');
+                            location.reload();
+                        }, 100)
+                    } else {
+                        if (that.css('backgroundColor') !== 'rgb(245, 222, 179)') {
+                            otherLeft++;
+                            if (row * column - mine.length <= otherLeft) {
+                                showBomb();
+                                setTimeout(function () {
+                                    alert('你获胜了，点击“确认”重新开始');
+                                    location.reload();
+                                }, 100);
+                            }
+                        }
+                        that.css('backgroundColor', 'wheat');
+                        if (that.index() % column !== 0) {
+                            bombBeside = isBomb(that.index() - column - 1).length ? bombBeside + 1 : bombBeside;
+                            bombBeside = isBomb(that.index() - 1).length ? bombBeside + 1 : bombBeside;
+                            bombBeside = isBomb(that.index() + column - 1).length ? bombBeside + 1 : bombBeside;
+                        }
+                        if (that.index() % column !== column - 1) {
+                            bombBeside = isBomb(that.index() - column + 1).length ? bombBeside + 1 : bombBeside;
+                            bombBeside = isBomb(that.index() + 1).length ? bombBeside + 1 : bombBeside;
+                            bombBeside = isBomb(that.index() + column + 1).length ? bombBeside + 1 : bombBeside;
+                        }
+                        bombBeside = isBomb(that.index() + column).length ? bombBeside + 1 : bombBeside;
+                        bombBeside = isBomb(that.index() - column).length ? bombBeside + 1 : bombBeside;
+
+                        if (bombBeside) {
+                            that.text(bombBeside);
+                        } else {
+                            that.text('');
+                            if (that.index() % column !== 0 && $(block[that.index() - 1]).css('backgroundColor') !== 'rgb(245, 222, 179)') {
+                                $(block[that.index() - 1]).mousedown();
+                                $(block[that.index() - 1]).mouseup();
+                            }
+                            if (that.index() % column !== 0 && $(block[that.index() - column - 1]).css('backgroundColor') !== 'rgb(245, 222, 179)') {
+                                $(block[that.index() - column - 1]).mousedown();
+                                $(block[that.index() - column - 1]).mouseup();
+                            }
+                            if (that.index() % column !== 0 && $(block[that.index() + column - 1]).css('backgroundColor') !== 'rgb(245, 222, 179)') {
+                                $(block[that.index() + column - 1]).mousedown();
+                                $(block[that.index() + column - 1]).mouseup();
+                            }
+                            if (that.index() % column !== column - 1 && $(block[that.index() + 1]).css('backgroundColor') !== 'rgb(245, 222, 179)') {
+                                $(block[that.index() + 1]).mousedown();
+                                $(block[that.index() + 1]).mouseup();
+                            }
+                            if (that.index() % column !== column - 1 && $(block[that.index() + column + 1]).css('backgroundColor') !== 'rgb(245, 222, 179)') {
+                                $(block[that.index() + column + 1]).mousedown();
+                                $(block[that.index() + column + 1]).mouseup();
+                            }
+                            if (that.index() % column !== column - 1 && $(block[that.index() - column + 1]).css('backgroundColor') !== 'rgb(245, 222, 179)') {
+                                $(block[that.index() - column + 1]).mousedown();
+                                $(block[that.index() - column + 1]).mouseup();
+                            }
+                            if (parseInt(that.index() / row) !== 0 && $(block[that.index() - column]).css('backgroundColor') !==
+                                'rgb(245, 222, 179)') {
+                                $(block[that.index() - column]).mousedown();
+                                $(block[that.index() - column]).mouseup();
+                            }
+                            if (parseInt(that.index() / row) !== row - 1 && $(block[that.index() + column]).css('backgroundColor') !==
+                                'rgb(245, 222, 179)') {
+                                $(block[that.index() + column]).mousedown();
+                                $(block[that.index() + column]).mouseup();
+                            }
+                        }
+                    }
+                    break;
+                case 2:
+                    $(this).css('box-shadow', '3px 3px 3px gray');
+                    break;
+                case 3:
+                    if ($(this).css('backgroundColor') !== 'rgb(245, 222, 179)') {
+                        if (that.text() === '') {
+                            that.text('q')
+                        } else if (that.text() === '🚩') {
+                            that.text('?')
+                        } else if (that.text() === '❔') {
+                            that.text('');
+                        }
+                        $(this).css('box-shadow', '3px 3px 3px gray');
+                    }
+                    break;
+            }
+        })
+
+    </script>
+</body>
+
+</html>

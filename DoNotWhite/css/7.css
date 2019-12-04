@@ -1,0 +1,55 @@
+*{margin: 0; padding: 0;}
+#container{
+    width: 400px;
+    height: 625px;
+    /* background: black; */
+    /* margin: 20px auto; */
+    border: 1px solid rebeccapurple;
+    overflow: hidden;
+}
+.rowContainer{
+    width: 400px;
+    height: 125px;
+    position: relative;
+    top: -125px;
+}
+.block{
+    width: 100px;
+    height: 125px;
+    border: 1px solid black;
+    box-sizing: border-box;
+    float: left;
+}
+#bottom{
+    width: 400px;
+    height: 125px;
+    float: left;
+    position: relative;
+    bottom: 125px;
+}
+.black{
+    background: black;
+}
+.btnTip{
+    width: 100px;
+    height: 125px;
+    /* background: red; */
+    float: left;
+    font-size: 100px;
+    line-height: 125px;
+    text-align: center;
+    color: white;
+}
+.timer{
+    width: 400px;
+    height: 250px;
+    line-height: 250px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    margin: 20px auto;
+    font-size: 50px;
+    font-weight: bold;
+    color: red;
+    text-shadow: 2px 2px grey;
+}
